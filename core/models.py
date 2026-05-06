@@ -26,9 +26,13 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True, null=True, blank=True)
     phone = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    password = models.CharField(max_length=255)
-    user_type = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Customer')
-    
+
+    user_type = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default='Customer'
+    )
+
     last_login = models.DateTimeField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
@@ -37,7 +41,6 @@ class User(AbstractBaseUser):
     objects = CustomUserManager()
 
     class Meta:
-        managed = True
         db_table = 'users'
 
     def __str__(self):
