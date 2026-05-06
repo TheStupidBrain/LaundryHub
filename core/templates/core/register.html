@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="auth-wrapper py-5">
+    <div class="glass-card auth-card text-center" style="max-width: 550px;">
+        <i class="fa-solid fa-user-plus auth-icon"></i>
+        <h3 class="fw-bold mb-2">Create Account</h3>
+        <p class="text-muted mb-4">Join AquaWash for seamless tracking.</p>
+
+        <form method="POST" class="text-start">
+            {% csrf_token %}
+            <div class="row g-3 mb-3">
+                <div class="col-sm-12">
+                    <label class="form-label fw-medium text-muted">Full Name</label>
+                    <input type="text" name="name" class="form-control form-control-lg bg-light" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-medium text-muted">Phone Number</label>
+                    <input type="text" name="phone" class="form-control form-control-lg bg-light" pattern="[6789]\d{9}" title="Phone number must be exactly 10 digits and start with 6, 7, 8, or 9" minlength="10" maxlength="10" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-medium text-muted">Email Address</label>
+                    <input type="email" name="email" class="form-control form-control-lg bg-light" required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-medium text-muted">Secure Password</label>
+                    <input type="password" name="password" class="form-control form-control-lg bg-light" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}" title="Must contain at least 8 characters, including uppercase, lowercase, number, and special character" minlength="8" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-brand w-100 py-3 mt-3 rounded-pill shadow-sm">Register Now</button>
+        </form>
+
+        <div class="mt-4 pt-3 border-top">
+            <p class="mb-0 text-muted">Already have an account? <a href="{% url 'login' %}"
+                    class="fw-bold text-decoration-none" style="color: var(--brand-main);">Log In</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

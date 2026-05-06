@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="row justify-content-center py-4">
+    <div class="col-md-5">
+        <div class="d-flex align-items-center mb-4">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-sm btn-light border rounded-circle me-3"><i
+                    class="fa-solid fa-arrow-left"></i></a>
+            <h3 class="fw-bold mb-0">Add New Staff</h3>
+        </div>
+
+        <div class="glass-card">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-medium text-muted">Full Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fa-solid fa-id-badge text-muted"></i></span>
+                        <input type="text" name="name" class="form-control bg-light" placeholder="Staff Name" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-medium text-muted">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fa-solid fa-envelope text-muted"></i></span>
+                        <input type="email" name="email" class="form-control bg-light" placeholder="staff@store.com"
+                            required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-medium text-muted">Phone Number</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fa-solid fa-phone text-muted"></i></span>
+                        <input type="text" name="phone" class="form-control bg-light" pattern="[6789]\d{9}" title="Phone number must be exactly 10 digits and start with 6, 7, 8, or 9" minlength="10" maxlength="10" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-medium text-muted">Temporary Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fa-solid fa-key text-muted"></i></span>
+                        <input type="password" name="password" class="form-control bg-light" placeholder="••••••••" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}" title="Must contain at least 8 characters, including uppercase, lowercase, number, and special character" minlength="8" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill shadow-sm"><i
+                        class="fa-solid fa-user-check me-2"></i>Create Staff Account</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

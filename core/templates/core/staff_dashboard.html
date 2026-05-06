@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1"><i class="fa-solid fa-clipboard-user text-primary me-2"></i>Staff Dashboard</h2>
+        <p class="text-muted mb-0">Update laundry order statuses and track progress.</p>
+    </div>
+</div>
+
+<div class="glass-card">
+    <div class="table-responsive">
+        <table class="table table-custom w-100">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Phone</th>
+                    <th>Delivery Info</th>
+                    <th>Status Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td class="fw-bold" style="color: var(--brand-main); min-width: 120px;">
+                        #ORD-{{ order.id|stringformat:"04d" }}
+                    </td>
+                    <td><i class="fa-solid fa-phone fa-sm text-muted me-2"></i>{{ order.customer_phone }}</td>
+                    <td>
+                        {% if order.is_home_delivery %}
+                        <span class="badge bg-info text-dark mb-1"><i class="fa-solid fa-truck me-1"></i> Home Delivery</span><br>
+                        <small class="text-muted">{{ order.delivery_address|default:"No address provided" }}</small>
+                        {% else %}
+                        <span class="text-muted small"><i class="fa-solid fa-store me-1"></i> Store Pickup</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST"
+                            class="d-flex align-items-center gap-2 m-0 bg-light p-2 rounded-pill d-inline-flex border">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <select name="status" class="form-select form-select-sm border-0 bg-transparent fw-medium"
+                                style="min-width: 150px; box-shadow: none;">
+                                <option {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                <option {% if order.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                                <option {% if order.status == 'Completed' %}selected{% endif %}>Completed</option>
+                                <option {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-dark rounded-pill px-3">
+                                <i class="fa-solid fa-rotate me-1"></i> Update
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-5 text-muted">
+                        <i class="fa-solid fa-list-check fa-3x mb-3 text-light"></i><br>
+                        No active orders available.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
